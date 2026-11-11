@@ -1346,12 +1346,24 @@ class PixelScene extends Scene {
     this.off.height = this.baseH;
     this.offCtx = this.off.getContext('2d');
     this.offCtx.imageSmoothingEnabled = false;
-    this.stars = Array.from({ length: 46 }, (_, index) => ({
-      x: (index * 67 + 31) % this.baseW,
-      y: (index * 43 + 13) % 150,
-      phase: index * 0.7,
-      size: index % 7 === 0 ? 2 : 1
+    this.stars = Array.from({ length: 34 }, (_, index) => ({
+      x: (index * 73 + 23) % this.baseW,
+      y: (index * 47 + 11) % 92,
+      phase: index * 0.71,
+      size: index % 8 === 0 ? 2 : 1
     }));
+    this.potions = [
+      { x: 24, y: 159, color: '#77ff55' },
+      { x: 39, y: 159, color: '#9070ff' },
+      { x: 54, y: 159, color: '#55e6d2' },
+      { x: 98, y: 138, color: '#ff6b3d' },
+      { x: 113, y: 138, color: '#d8ff3e' },
+      { x: 128, y: 138, color: '#ff6bd5' },
+      { x: 176, y: 185, color: '#77ff55' },
+      { x: 191, y: 185, color: '#9070ff' },
+      { x: 257, y: 136, color: '#55e6d2' },
+      { x: 272, y: 136, color: '#ff6b3d' }
+    ];
   }
 
   draw(time) {
@@ -1359,177 +1371,417 @@ class PixelScene extends Scene {
     const w = this.w;
     const h = this.h;
     if (!w || !h) return;
+
+    const cycle = time % 12;
+    const inMenu = cycle < 4;
+    const local = inMenu ? cycle : cycle - 4;
+    const duration = inMenu ? 4 : 8;
     const o = this.offCtx;
     o.clearRect(0, 0, this.baseW, this.baseH);
 
-    const sky = o.createLinearGradient(0, 0, 0, this.baseH);
-    sky.addColorStop(0, '#120d26');
-    sky.addColorStop(0.42, '#1a1436');
-    sky.addColorStop(0.72, '#16243a');
-    sky.addColorStop(1, '#0b1b1f');
-    o.fillStyle = sky;
-    o.fillRect(0, 0, this.baseW, this.baseH);
+    o.save();
+    const pan = this.pointer.active ? (this.pointer.x - 0.5) * -5 : Math.sin(time * 0.25) * 1.5;
+    o.translate(pan, 0);
+    if (inMenu) this.drawMenu(o, local);
+    else this.drawGame(o, local);
+    o.restore();
 
-    this.stars.forEach((star) => {
-      const alpha = 0.3 + (Math.sin(time * 2 + star.phase) + 1) * 0.3;
-      o.fillStyle = `rgba(242, 239, 230, ${alpha})`;
-      o.fillRect(star.x, star.y, star.size, star.size);
-    });
-
-    o.fillStyle = 'rgba(216, 255, 62, 0.08)';
-    o.beginPath();
-    o.arc(256, 47, 34, 0, TAU);
-    o.fill();
-    o.fillStyle = '#efe7c9';
-    o.beginPath();
-    o.arc(256, 47, 17, 0, TAU);
-    o.fill();
-    o.fillStyle = 'rgba(190, 176, 143, 0.65)';
-    o.fillRect(251, 38, 4, 4);
-    o.fillRect(260, 48, 5, 4);
-    o.fillRect(248, 52, 3, 3);
-
-    o.fillStyle = '#1b1731';
-    o.beginPath();
-    o.moveTo(0, 158);
-    o.lineTo(34, 126);
-    o.lineTo(66, 150);
-    o.lineTo(96, 112);
-    o.lineTo(132, 154);
-    o.lineTo(162, 134);
-    o.lineTo(202, 166);
-    o.lineTo(240, 142);
-    o.lineTo(282, 164);
-    o.lineTo(320, 138);
-    o.lineTo(320, 240);
-    o.lineTo(0, 240);
-    o.closePath();
-    o.fill();
-
-    o.fillStyle = '#121a2b';
-    o.beginPath();
-    o.moveTo(0, 182);
-    o.lineTo(48, 152);
-    o.lineTo(92, 180);
-    o.lineTo(140, 158);
-    o.lineTo(186, 190);
-    o.lineTo(238, 168);
-    o.lineTo(292, 190);
-    o.lineTo(320, 176);
-    o.lineTo(320, 240);
-    o.lineTo(0, 240);
-    o.closePath();
-    o.fill();
-
-    o.fillStyle = '#0b1e1d';
-    o.fillRect(0, 194, this.baseW, 46);
-
-    o.strokeStyle = 'rgba(85, 230, 210, 0.13)';
-    o.lineWidth = 1;
-    for (let y = 200; y < 240; y += 8) {
-      o.beginPath();
-      o.moveTo(0, y);
-      o.lineTo(320, y);
-      o.stroke();
-    }
-    for (let x = 0; x < 320; x += 20) {
-      o.beginPath();
-      o.moveTo(x, 194);
-      o.lineTo(x + 12, 240);
-      o.stroke();
-    }
-
-    const portalX = 258;
-    const portalY = 148;
-    const portalGlow = o.createRadialGradient(portalX, portalY, 0, portalX, portalY, 40);
-    portalGlow.addColorStop(0, 'rgba(85, 230, 210, 0.3)');
-    portalGlow.addColorStop(1, 'rgba(85, 230, 210, 0)');
-    o.fillStyle = portalGlow;
-    o.fillRect(portalX - 40, portalY - 50, 80, 100);
-    o.fillStyle = '#0e2b2d';
-    o.fillRect(portalX - 12, portalY - 34, 24, 62);
-    o.strokeStyle = 'rgba(85, 230, 210, 0.8)';
-    o.lineWidth = 2;
-    o.strokeRect(portalX - 12, portalY - 34, 24, 62);
-    o.fillStyle = 'rgba(85, 230, 210, 0.45)';
-    for (let i = 0; i < 4; i++) {
-      o.fillRect(portalX - 8 + (i % 2) * 9, portalY - 28 + i * 13, 5, 2);
-    }
-
-    const cubes = [
-      { x: 58, y: 82 + Math.sin(time * 0.9) * 5, size: 12, tone: '#9070ff' },
-      { x: 190, y: 72 + Math.sin(time * 0.7 + 2) * 6, size: 9, tone: '#d8ff3e' },
-      { x: 222, y: 112 + Math.sin(time * 1.1 + 1) * 4, size: 7, tone: '#ff6b3d' }
-    ];
-    cubes.forEach((cube) => {
-      const s = cube.size;
-      o.fillStyle = cube.tone;
-      o.beginPath();
-      o.moveTo(cube.x, cube.y - s * 0.5);
-      o.lineTo(cube.x + s, cube.y);
-      o.lineTo(cube.x, cube.y + s * 0.5);
-      o.lineTo(cube.x - s, cube.y);
-      o.closePath();
-      o.fill();
-      o.fillStyle = 'rgba(8, 9, 11, 0.28)';
-      o.beginPath();
-      o.moveTo(cube.x - s, cube.y);
-      o.lineTo(cube.x, cube.y + s * 0.5);
-      o.lineTo(cube.x, cube.y + s);
-      o.lineTo(cube.x - s, cube.y + s * 0.5);
-      o.closePath();
-      o.fill();
-    });
-
-    const walk = Math.sin(time * 1.1);
-    const px = Math.round(146 + walk * 26);
-    const py = Math.round(194 + Math.sin(time * 3.2) * 1.2);
-    o.fillStyle = 'rgba(0, 0, 0, 0.3)';
-    o.beginPath();
-    o.ellipse(px, 216, 13, 3, 0, 0, TAU);
-    o.fill();
-
-    o.fillStyle = '#21172e';
-    o.fillRect(px - 5, py - 24, 10, 6);
-    o.fillStyle = '#ffd8b3';
-    o.fillRect(px - 4, py - 19, 8, 6);
-    o.fillStyle = '#2a1a31';
-    o.fillRect(px - 4, py - 19, 8, 2);
-    o.fillStyle = '#0b0d10';
-    o.fillRect(px - 2, py - 16, 1, 1);
-    o.fillRect(px + 2, py - 16, 1, 1);
-    o.fillStyle = '#d8ff3e';
-    o.fillRect(px - 5, py - 13, 10, 2);
-    o.fillStyle = '#9070ff';
-    o.fillRect(px - 4, py - 11, 8, 9);
-    o.fillStyle = '#6e50db';
-    o.fillRect(px - 4, py - 11, 2, 9);
-    o.fillStyle = '#55e6d2';
-    o.fillRect(px - 4, py - 2, 3, 5);
-    o.fillRect(px + 1, py - 2, 3, 5);
-    o.fillStyle = '#d8ff3e';
-    o.fillRect(px + 4, py - 9, 2, 2);
-
-    for (let i = 0; i < 7; i++) {
-      const dotY = 238 - ((time * 16 + i * 29) % 54);
-      o.fillStyle = `rgba(216, 255, 62, ${0.1 + (i % 3) * 0.08})`;
-      o.fillRect(236 + (i * 17) % 28, dotY, 1, 1);
+    const fade = Math.min(1, local / 0.3, (duration - local) / 0.3);
+    if (fade < 1) {
+      o.fillStyle = `rgba(3, 5, 3, ${(1 - fade) * 0.9})`;
+      o.fillRect(0, 0, this.baseW, this.baseH);
     }
 
     const scale = Math.max(w / this.baseW, h / this.baseH);
     const drawW = this.baseW * scale;
     const drawH = this.baseH * scale;
-    const dx = (w - drawW) / 2 + (this.pointer.active ? (this.pointer.x - 0.5) * -8 : 0);
-    const dy = (h - drawH) / 2 + (this.pointer.active ? (this.pointer.y - 0.5) * -5 : 0);
+    const dx = (w - drawW) / 2;
+    const dy = (h - drawH) / 2;
 
     ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = '#08090b';
+    ctx.fillStyle = '#050605';
     ctx.fillRect(0, 0, w, h);
     ctx.imageSmoothingEnabled = false;
     ctx.drawImage(this.off, 0, 0, this.baseW, this.baseH, dx, dy, drawW, drawH);
 
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.16)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.14)';
     for (let y = 0; y < h; y += 3) ctx.fillRect(0, y, w, 1);
+  }
+
+  drawMenu(o, time) {
+    o.fillStyle = '#040604';
+    o.fillRect(0, 0, this.baseW, this.baseH);
+
+    const glow = o.createRadialGradient(160, 168, 0, 160, 168, 190);
+    glow.addColorStop(0, 'rgba(75, 235, 60, 0.09)');
+    glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    o.fillStyle = glow;
+    o.fillRect(0, 0, this.baseW, this.baseH);
+
+    this.stars.forEach((star) => {
+      const alpha = 0.18 + (Math.sin(time * 1.7 + star.phase) + 1) * 0.18;
+      o.fillStyle = `rgba(220, 255, 210, ${alpha})`;
+      o.fillRect(Math.round(star.x), star.y, star.size, star.size);
+    });
+
+    this.drawWireframe(o, time);
+    this.drawMoon(o, 276, 38);
+    this.drawBook(o, 88, 146, time);
+    this.drawMiniDragon(o, 201, 153, time);
+
+    o.save();
+    o.textAlign = 'center';
+    o.textBaseline = 'alphabetic';
+    o.font = '700 13px "Courier New", monospace';
+    o.fillStyle = '#77ff57';
+    o.shadowColor = 'rgba(102, 255, 76, 0.75)';
+    o.shadowBlur = 7;
+    o.fillText('Dimensional Adventure', 160, 44);
+    o.restore();
+
+    const startY = 102;
+    const items = ['Start', 'Control', 'Credits', 'Exit'];
+    o.save();
+    o.textAlign = 'left';
+    o.textBaseline = 'alphabetic';
+    o.font = '700 7px "Courier New", monospace';
+    items.forEach((item, index) => {
+      const y = startY + index * 12;
+      o.fillStyle = index === 0 ? '#b6ff9b' : 'rgba(242, 239, 230, 0.9)';
+      o.fillText(item, 130, y);
+    });
+    if (Math.floor(time * 2.4) % 2 === 0) {
+      o.fillStyle = '#77ff57';
+      o.beginPath();
+      o.moveTo(119, startY - 4);
+      o.lineTo(125, startY - 1);
+      o.lineTo(119, startY + 2);
+      o.closePath();
+      o.fill();
+    }
+    o.fillStyle = 'rgba(119, 255, 87, 0.55)';
+    o.font = '700 4px "Courier New", monospace';
+    o.textAlign = 'center';
+    o.fillText('PRESS ENTER', 160, 224);
+    o.restore();
+
+    for (let i = 0; i < 5; i++) {
+      const x = 38 + i * 61;
+      const y = 78 + Math.sin(time * 1.2 + i) * 9;
+      o.fillStyle = `rgba(119, 255, 87, ${0.1 + (i % 2) * 0.08})`;
+      o.fillRect(x, y, 1, 1);
+    }
+  }
+
+  drawWireframe(o, time) {
+    const rows = 12;
+    const cols = 18;
+    const project = (x, z) => {
+      const scale = 1.14 - z * 0.85;
+      const hill = Math.sin(x * 0.035 + z * 7 + time * 0.45) * 8
+        + Math.sin(x * 0.085 - z * 4 + time * 0.3) * 4;
+      return {
+        x: 160 + (x - 160) * scale,
+        y: 197 - z * 57 + hill * (0.35 + z * 0.75)
+      };
+    };
+
+    o.save();
+    o.lineWidth = 0.65;
+    for (let row = 0; row <= rows; row++) {
+      const z = row / rows;
+      o.strokeStyle = `rgba(108, 255, 86, ${0.12 + z * 0.17})`;
+      o.beginPath();
+      for (let x = 0; x <= 320; x += 4) {
+        const p = project(x, z);
+        if (x === 0) o.moveTo(p.x, p.y);
+        else o.lineTo(p.x, p.y);
+      }
+      o.stroke();
+    }
+    for (let col = 0; col <= cols; col++) {
+      const x = (col / cols) * 320;
+      o.strokeStyle = 'rgba(108, 255, 86, 0.13)';
+      o.beginPath();
+      for (let row = 0; row <= rows; row++) {
+        const p = project(x, row / rows);
+        if (row === 0) o.moveTo(p.x, p.y);
+        else o.lineTo(p.x, p.y);
+      }
+      o.stroke();
+    }
+    o.restore();
+  }
+
+  drawMoon(o, x, y) {
+    o.fillStyle = 'rgba(247, 231, 153, 0.12)';
+    o.beginPath();
+    o.arc(x, y, 30, 0, TAU);
+    o.fill();
+    o.fillStyle = '#f4e69e';
+    o.beginPath();
+    o.arc(x, y, 13, 0, TAU);
+    o.fill();
+    o.fillStyle = '#040604';
+    o.beginPath();
+    o.arc(x + 6, y - 4, 12, 0, TAU);
+    o.fill();
+    o.fillStyle = 'rgba(180, 166, 118, 0.8)';
+    o.fillRect(x - 8, y + 2, 2, 2);
+    o.fillRect(x - 3, y + 7, 3, 2);
+  }
+
+  drawBook(o, x, y, time) {
+    const bob = Math.round(Math.sin(time * 1.8) * 1.5);
+    o.fillStyle = 'rgba(0, 0, 0, 0.25)';
+    o.fillRect(x + 1, y + 18, 13, 2);
+    o.fillStyle = '#54263b';
+    o.fillRect(x, y + bob, 14, 14);
+    o.fillStyle = '#8f3e5b';
+    o.fillRect(x + 1, y + 1 + bob, 12, 12);
+    o.fillStyle = '#e6d6ad';
+    o.fillRect(x + 3, y + 2 + bob, 4, 10);
+    o.fillStyle = '#b5a47d';
+    o.fillRect(x + 3, y + 4 + bob, 4, 1);
+    o.fillRect(x + 3, y + 7 + bob, 4, 1);
+    o.fillStyle = '#d8ff3e';
+    o.fillRect(x + 9, y + 5 + bob, 2, 1);
+    o.fillRect(x + 9, y + 9 + bob, 2, 1);
+  }
+
+  drawMiniDragon(o, x, y, time) {
+    const bob = Math.round(Math.sin(time * 3) * 1);
+    o.fillStyle = 'rgba(0, 0, 0, 0.3)';
+    o.fillRect(x - 1, y + 10, 14, 2);
+    o.fillStyle = '#5c33a0';
+    o.fillRect(x, y - 9 + bob, 12, 3);
+    o.fillStyle = '#8751d6';
+    o.fillRect(x + 3, y - 8 + bob, 6, 1);
+    o.fillStyle = '#5cff47';
+    o.fillRect(x - 2, y + bob, 16, 8);
+    o.fillRect(x - 5, y + 2 + bob, 4, 3);
+    o.fillStyle = '#2c9e28';
+    o.fillRect(x - 2, y + 6 + bob, 16, 2);
+    o.fillStyle = '#b7ff8f';
+    o.fillRect(x + 5, y + 1 + bob, 2, 2);
+    o.fillStyle = '#071108';
+    o.fillRect(x + 9, y + 2 + bob, 1, 1);
+    o.fillStyle = '#ff83c9';
+    o.fillRect(x + 13, y + 5 + bob, 2, 1);
+    o.fillStyle = '#d8ff3e';
+    o.fillRect(x + 4, y - 8 + bob, 1, 1);
+    o.fillRect(x + 7, y - 7 + bob, 1, 1);
+  }
+
+  drawGame(o, time) {
+    const brickW = 32;
+    const brickH = 16;
+    o.fillStyle = '#4c4f4c';
+    o.fillRect(0, 0, this.baseW, this.baseH);
+
+    for (let row = -1; row < 16; row++) {
+      const offset = row % 2 === 0 ? 0 : brickW / 2;
+      for (let x = -brickW; x < this.baseW + brickW; x += brickW) {
+        const bx = x + offset;
+        const by = row * brickH;
+        const index = row * 19 + Math.round(x / brickW);
+        o.fillStyle = index % 7 === 0 ? '#565956' : '#5b5e5b';
+        o.fillRect(bx + 1, by + 1, brickW - 2, brickH - 2);
+        o.fillStyle = '#686b68';
+        o.fillRect(bx + 1, by + 1, brickW - 2, 1);
+        o.fillStyle = '#3b3d3b';
+        o.fillRect(bx + 1, by + brickH - 2, brickW - 2, 1);
+      }
+    }
+
+    const shade = o.createLinearGradient(0, 0, 0, this.baseH);
+    shade.addColorStop(0, 'rgba(0, 0, 0, 0.12)');
+    shade.addColorStop(0.55, 'rgba(0, 0, 0, 0)');
+    shade.addColorStop(1, 'rgba(0, 0, 0, 0.3)');
+    o.fillStyle = shade;
+    o.fillRect(0, 0, this.baseW, this.baseH);
+
+    for (let i = 0; i < 22; i++) {
+      const x = (i * 47 + 13) % 320;
+      const y = (i * 29 + 17) % 210;
+      o.fillStyle = i % 3 === 0 ? 'rgba(92, 255, 71, 0.18)' : 'rgba(40, 80, 38, 0.22)';
+      o.fillRect(x, y, 2, 1);
+      if (i % 4 === 0) o.fillRect(x + 2, y + 2, 1, 1);
+    }
+
+    this.drawPurpleColumn(o, 65, 139, 22, 86);
+    this.drawPlatform(o, 11, 170, 66);
+    this.drawPlatform(o, 84, 149, 64);
+    this.drawPlatform(o, 162, 196, 62);
+    this.drawPlatform(o, 244, 146, 60);
+
+    this.potions.forEach((potion) => {
+      this.drawPotion(o, potion.x, potion.y, potion.color);
+    });
+
+    this.drawPortal(o, 294, 186, time);
+    this.drawStaff(o, 207, 178, time);
+    this.drawDragon(o, 112 + Math.sin(time * 0.8) * 15, 218, time);
+    this.drawBook(o, 33, 201, time + 2);
+
+    o.fillStyle = '#2b1b10';
+    o.fillRect(0, 224, this.baseW, 16);
+    o.fillStyle = '#3a2517';
+    for (let x = 0; x < this.baseW; x += 24) {
+      o.fillRect(x, 224, 22, 2);
+      o.fillRect(x + 4, 229, 18, 1);
+      o.fillRect(x + 9, 234, 13, 1);
+    }
+    o.fillStyle = 'rgba(0, 0, 0, 0.32)';
+    o.fillRect(0, 239, this.baseW, 1);
+  }
+
+  drawPlatform(o, x, y, w) {
+    o.fillStyle = 'rgba(0, 0, 0, 0.32)';
+    o.fillRect(x + 2, y + 7, w - 4, 4);
+    o.fillStyle = '#3c2618';
+    o.fillRect(x, y, w, 5);
+    o.fillStyle = '#6f4a2a';
+    o.fillRect(x, y, w, 3);
+    o.fillStyle = '#9a6c3e';
+    o.fillRect(x, y, w, 1);
+    o.fillStyle = '#24160e';
+    for (let px = x + 9; px < x + w; px += 17) {
+      o.fillRect(px, y + 5, 2, 4);
+    }
+  }
+
+  drawPotion(o, x, y, color) {
+    o.fillStyle = 'rgba(0, 0, 0, 0.3)';
+    o.fillRect(x + 1, y + 8, 5, 2);
+    o.fillStyle = '#d9c9a2';
+    o.fillRect(x + 2, y, 3, 2);
+    o.fillStyle = '#714c2a';
+    o.fillRect(x + 2, y - 2, 3, 2);
+    o.fillStyle = '#c9d6cc';
+    o.fillRect(x + 1, y + 2, 5, 6);
+    o.fillStyle = color;
+    o.fillRect(x + 2, y + 4, 3, 3);
+    o.fillStyle = 'rgba(255, 255, 255, 0.65)';
+    o.fillRect(x + 2, y + 2, 1, 2);
+  }
+
+  drawPurpleColumn(o, x, y, w, h) {
+    o.fillStyle = '#2b153d';
+    o.fillRect(x - 1, y - 1, w + 2, h + 2);
+    o.fillStyle = '#5a2d7a';
+    o.fillRect(x, y, w, h);
+    for (let row = 0; row < h; row += 8) {
+      const offset = row % 16 === 0 ? 0 : 5;
+      for (let col = -10; col < w; col += 10) {
+        o.fillStyle = (row + col) % 20 === 0 ? '#7a45a2' : '#633386';
+        o.fillRect(x + col + offset, y + row, 8, 6);
+        o.fillStyle = 'rgba(210, 160, 255, 0.18)';
+        o.fillRect(x + col + offset, y + row, 8, 1);
+      }
+    }
+    o.fillStyle = 'rgba(0, 0, 0, 0.28)';
+    o.fillRect(x + w - 2, y, 2, h);
+  }
+
+  drawPortal(o, x, y, time) {
+    const pulse = 0.82 + Math.sin(time * 2.2) * 0.08;
+    const glow = o.createRadialGradient(x, y, 0, x, y, 38);
+    glow.addColorStop(0, 'rgba(96, 255, 70, 0.42)');
+    glow.addColorStop(0.55, 'rgba(96, 255, 70, 0.14)');
+    glow.addColorStop(1, 'rgba(96, 255, 70, 0)');
+    o.fillStyle = glow;
+    o.fillRect(x - 40, y - 44, 80, 88);
+    o.fillStyle = '#0a1b08';
+    o.beginPath();
+    o.ellipse(x, y, 16 * pulse, 25 * pulse, 0, 0, TAU);
+    o.fill();
+    o.strokeStyle = '#72ff55';
+    o.lineWidth = 2;
+    o.beginPath();
+    o.ellipse(x, y, 18 * pulse, 28 * pulse, 0, 0, TAU);
+    o.stroke();
+    o.strokeStyle = 'rgba(114, 255, 85, 0.35)';
+    o.lineWidth = 1;
+    o.beginPath();
+    o.ellipse(x, y, 24 * pulse, 36 * pulse, 0, 0, TAU);
+    o.stroke();
+    for (let i = 0; i < 8; i++) {
+      const angle = i * (TAU / 8) + time * 0.3;
+      o.fillStyle = i % 2 === 0 ? '#b6ff9b' : '#5cff47';
+      o.fillRect(Math.round(x + Math.cos(angle) * 22), Math.round(y + Math.sin(angle) * 33), 1, 1);
+    }
+  }
+
+  drawStaff(o, x, y, time) {
+    o.strokeStyle = '#6f4a2a';
+    o.lineWidth = 2;
+    o.beginPath();
+    o.moveTo(x - 10, y + 16);
+    o.lineTo(x + 2, y - 10);
+    o.stroke();
+    o.fillStyle = '#ff8a3d';
+    o.fillRect(x + 1, y - 12, 3, 3);
+    o.fillStyle = '#ffd23d';
+    o.fillRect(x + 3, y - 16, 2, 2);
+    o.fillRect(x - 1, y - 17, 2, 2);
+    o.fillRect(x + 5, y - 19, 2, 2);
+    o.fillRect(x - 3, y - 13, 2, 2);
+    if (Math.floor(time * 4) % 2 === 0) {
+      o.fillStyle = 'rgba(255, 210, 61, 0.55)';
+      o.fillRect(x + 3, y - 18, 1, 1);
+      o.fillRect(x - 3, y - 11, 1, 1);
+    }
+  }
+
+  drawDragon(o, x, y, time) {
+    const bob = Math.round(Math.sin(time * 4) * 1);
+    const step = Math.sin(time * 8) > 0 ? 1 : 0;
+    o.fillStyle = 'rgba(0, 0, 0, 0.32)';
+    o.beginPath();
+    o.ellipse(x + 4, y + 3, 25, 3, 0, 0, TAU);
+    o.fill();
+
+    o.fillStyle = '#55d943';
+    o.fillRect(x - 23, y - 7 + bob, 19, 7);
+    o.fillRect(x - 27, y - 5 + bob, 5, 4);
+    o.fillStyle = '#3aa82c';
+    o.fillRect(x - 23, y - 2 + bob, 19, 2);
+    o.fillStyle = '#73f05e';
+    o.fillRect(x - 19, y - 6 + bob, 4, 1);
+
+    o.fillStyle = '#5cff47';
+    o.fillRect(x - 5, y - 14 + bob, 15, 14);
+    o.fillRect(x + 7, y - 11 + bob, 8, 10);
+    o.fillStyle = '#2c9e28';
+    o.fillRect(x - 5, y - 2 + bob, 15, 2);
+    o.fillStyle = '#c4ffab';
+    o.fillRect(x + 8, y - 9 + bob, 2, 2);
+    o.fillStyle = '#071108';
+    o.fillRect(x + 12, y - 8 + bob, 1, 1);
+    o.fillStyle = '#ff83c9';
+    o.fillRect(x + 15, y - 5 + bob, 3, 1);
+    o.fillStyle = '#d8ff3e';
+    o.fillRect(x + 9, y - 7 + bob, 1, 1);
+
+    o.fillStyle = '#5c33a0';
+    o.beginPath();
+    o.moveTo(x - 1, y - 14 + bob);
+    o.lineTo(x + 7, y - 30 + bob);
+    o.lineTo(x + 14, y - 14 + bob);
+    o.closePath();
+    o.fill();
+    o.fillStyle = '#8751d6';
+    o.fillRect(x + 5, y - 24 + bob, 2, 1);
+    o.fillRect(x + 8, y - 21 + bob, 1, 1);
+    o.fillStyle = '#d8ff3e';
+    o.fillRect(x + 6, y - 20 + bob, 1, 1);
+    o.fillRect(x + 4, y - 17 + bob, 1, 1);
+    o.fillRect(x + 10, y - 18 + bob, 1, 1);
+
+    o.fillStyle = '#55d943';
+    o.fillRect(x - 4, y + 1 + step, 3, 4 - step);
+    o.fillRect(x + 4, y + 1 + (1 - step), 3, 4 - (1 - step));
   }
 }
 
