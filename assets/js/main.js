@@ -1551,26 +1551,31 @@ class PixelScene extends Scene {
 
   drawMiniDragon(o, x, y, time) {
     const bob = Math.round(Math.sin(time * 3) * 1);
+    const wave = Math.round(Math.sin(time * 3.4) * 1);
     o.fillStyle = 'rgba(0, 0, 0, 0.3)';
-    o.fillRect(x - 1, y + 10, 14, 2);
+    o.fillRect(x - 8, y + 10, 24, 2);
     o.fillStyle = '#5c33a0';
-    o.fillRect(x, y - 9 + bob, 12, 3);
+    o.fillRect(x + 8, y - 9 + bob, 12, 3);
     o.fillStyle = '#8751d6';
-    o.fillRect(x + 3, y - 8 + bob, 6, 1);
-    o.fillStyle = '#5cff47';
-    o.fillRect(x - 2, y + bob, 16, 8);
-    o.fillRect(x - 5, y + 2 + bob, 4, 3);
+    o.fillRect(x + 11, y - 8 + bob, 6, 1);
+    o.fillStyle = '#55d943';
+    o.fillRect(x - 8, y + 3 + wave + bob, 6, 4);
+    o.fillRect(x - 3, y + 2 + bob, 10, 6);
+    o.fillRect(x + 5, y + bob, 12, 8);
     o.fillStyle = '#2c9e28';
-    o.fillRect(x - 2, y + 6 + bob, 16, 2);
+    o.fillRect(x - 8, y + 6 + wave + bob, 6, 1);
+    o.fillRect(x - 3, y + 7 + bob, 10, 1);
+    o.fillRect(x + 5, y + 7 + bob, 12, 1);
     o.fillStyle = '#b7ff8f';
-    o.fillRect(x + 5, y + 1 + bob, 2, 2);
+    o.fillRect(x + 10, y + 1 + bob, 2, 2);
     o.fillStyle = '#071108';
-    o.fillRect(x + 9, y + 2 + bob, 1, 1);
+    o.fillRect(x + 14, y + 2 + bob, 1, 1);
     o.fillStyle = '#ff83c9';
-    o.fillRect(x + 13, y + 5 + bob, 2, 1);
+    o.fillRect(x + 17, y + 5 + bob, 2, 1);
     o.fillStyle = '#d8ff3e';
-    o.fillRect(x + 4, y - 8 + bob, 1, 1);
-    o.fillRect(x + 7, y - 7 + bob, 1, 1);
+    o.fillRect(x + 11, y - 8 + bob, 1, 1);
+    o.fillRect(x + 14, y - 7 + bob, 1, 1);
+    o.fillRect(x - 1, y + 4 + bob, 1, 1);
   }
 
   drawGame(o, time) {
@@ -1621,7 +1626,7 @@ class PixelScene extends Scene {
 
     this.drawPortal(o, 294, 186, time);
     this.drawStaff(o, 207, 178, time);
-    this.drawDragon(o, 112 + Math.sin(time * 0.8) * 15, 218, time);
+    this.drawDragon(o, 138 + Math.sin(time * 0.8) * 14, 218, time);
     this.drawBook(o, 33, 201, time + 2);
 
     o.fillStyle = '#2b1b10';
@@ -1736,52 +1741,81 @@ class PixelScene extends Scene {
 
   drawDragon(o, x, y, time) {
     const bob = Math.round(Math.sin(time * 4) * 1);
-    const step = Math.sin(time * 8) > 0 ? 1 : 0;
+    const steps = 34;
+    const spine = Array.from({ length: steps + 1 }, (_, index) => {
+      const t = index / steps;
+      return {
+        x: Math.round(x - 58 + t * 62),
+        y: Math.round(y + 2 - t * 11 + Math.sin(t * 6.6 + time * 2.2) * 1.5 + bob),
+        half: Math.max(1, Math.round(2 + Math.sin(t * Math.PI) * 2.5))
+      };
+    });
+
     o.fillStyle = 'rgba(0, 0, 0, 0.32)';
     o.beginPath();
-    o.ellipse(x + 4, y + 3, 25, 3, 0, 0, TAU);
+    o.ellipse(x - 17, y + 3, 44, 3, 0, 0, TAU);
     o.fill();
 
-    o.fillStyle = '#55d943';
-    o.fillRect(x - 23, y - 7 + bob, 19, 7);
-    o.fillRect(x - 27, y - 5 + bob, 5, 4);
-    o.fillStyle = '#3aa82c';
-    o.fillRect(x - 23, y - 2 + bob, 19, 2);
-    o.fillStyle = '#73f05e';
-    o.fillRect(x - 19, y - 6 + bob, 4, 1);
+    spine.forEach((point) => {
+      o.fillStyle = '#1d6b1c';
+      o.fillRect(point.x - 1, point.y - point.half - 2, 5, point.half * 2 + 4);
+    });
+    spine.forEach((point) => {
+      o.fillStyle = '#2c9e28';
+      o.fillRect(point.x, point.y - point.half, 4, point.half * 2);
+      o.fillStyle = '#55d943';
+      o.fillRect(point.x, point.y - point.half, 4, 2);
+      o.fillStyle = '#b7ff8f';
+      o.fillRect(point.x, point.y + point.half - 1, 4, 1);
+    });
 
-    o.fillStyle = '#5cff47';
-    o.fillRect(x - 5, y - 14 + bob, 15, 14);
-    o.fillRect(x + 7, y - 11 + bob, 8, 10);
-    o.fillStyle = '#2c9e28';
-    o.fillRect(x - 5, y - 2 + bob, 15, 2);
-    o.fillStyle = '#c4ffab';
-    o.fillRect(x + 8, y - 9 + bob, 2, 2);
-    o.fillStyle = '#071108';
-    o.fillRect(x + 12, y - 8 + bob, 1, 1);
-    o.fillStyle = '#ff83c9';
-    o.fillRect(x + 15, y - 5 + bob, 3, 1);
+    const tail = spine[0];
+    o.fillStyle = '#1d6b1c';
+    o.fillRect(tail.x - 3, tail.y - 1, 4, 3);
+    o.fillStyle = '#55d943';
+    o.fillRect(tail.x - 2, tail.y - 1, 3, 2);
+
     o.fillStyle = '#d8ff3e';
-    o.fillRect(x + 9, y - 7 + bob, 1, 1);
+    [6, 14, 23, 29].forEach((index) => {
+      const point = spine[index];
+      o.fillRect(point.x + 1, point.y - point.half + 1, 1, 1);
+    });
+
+    o.fillStyle = '#1d6b1c';
+    o.fillRect(x - 5, y - 15 + bob, 20, 16);
+    o.fillRect(x + 10, y - 11 + bob, 10, 11);
+    o.fillStyle = '#55d943';
+    o.fillRect(x - 4, y - 14 + bob, 18, 14);
+    o.fillRect(x + 9, y - 10 + bob, 10, 9);
+    o.fillStyle = '#2c9e28';
+    o.fillRect(x - 4, y - 2 + bob, 18, 2);
+    o.fillRect(x + 9, y + 1 + bob, 10, 2);
+    o.fillStyle = '#b7ff8f';
+    o.fillRect(x + 8, y - 13 + bob, 6, 1);
+    o.fillStyle = '#f2efe6';
+    o.fillRect(x + 12, y - 9 + bob, 3, 3);
+    o.fillStyle = '#071108';
+    o.fillRect(x + 13, y - 8 + bob, 2, 2);
+    o.fillStyle = '#ff83c9';
+    o.fillRect(x + 19, y - 4 + bob, 4, 1);
+    o.fillRect(x + 19, y - 6 + bob, 2, 1);
+    o.fillStyle = '#d8ff3e';
+    o.fillRect(x + 10, y - 7 + bob, 1, 1);
 
     o.fillStyle = '#5c33a0';
     o.beginPath();
-    o.moveTo(x - 1, y - 14 + bob);
-    o.lineTo(x + 7, y - 30 + bob);
-    o.lineTo(x + 14, y - 14 + bob);
+    o.moveTo(x - 1, y - 15 + bob);
+    o.lineTo(x + 8, y - 32 + bob);
+    o.lineTo(x + 17, y - 15 + bob);
     o.closePath();
     o.fill();
     o.fillStyle = '#8751d6';
-    o.fillRect(x + 5, y - 24 + bob, 2, 1);
-    o.fillRect(x + 8, y - 21 + bob, 1, 1);
+    o.fillRect(x + 6, y - 26 + bob, 2, 1);
+    o.fillRect(x + 10, y - 23 + bob, 1, 1);
     o.fillStyle = '#d8ff3e';
-    o.fillRect(x + 6, y - 20 + bob, 1, 1);
-    o.fillRect(x + 4, y - 17 + bob, 1, 1);
-    o.fillRect(x + 10, y - 18 + bob, 1, 1);
-
-    o.fillStyle = '#55d943';
-    o.fillRect(x - 4, y + 1 + step, 3, 4 - step);
-    o.fillRect(x + 4, y + 1 + (1 - step), 3, 4 - (1 - step));
+    o.fillRect(x + 7, y - 22 + bob, 1, 1);
+    o.fillRect(x + 5, y - 19 + bob, 1, 1);
+    o.fillRect(x + 12, y - 20 + bob, 1, 1);
   }
 }
 
