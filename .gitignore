@@ -1,0 +1,12 @@
+# QA artifacts generated during local visual checks
+qa-*.png
+qa-*.mjs
+overflow.mjs
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+
+# local validation only
+validate_site.py
+

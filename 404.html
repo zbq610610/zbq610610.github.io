@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 — Wrong dimension · Youyang Shang</title>
+  <meta name="description" content="This page doesn't exist. Head back to Youyang Shang's portfolio.">
+  <meta name="theme-color" content="#08090b">
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <style>
+    .error-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background:
+        radial-gradient(circle at 78% 24%, rgba(144, 112, 255, 0.14), transparent 36%),
+        radial-gradient(circle at 18% 82%, rgba(216, 255, 62, 0.06), transparent 34%),
+        var(--bg);
+    }
+    .error-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 26px var(--edge);
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .error-main {
+      flex: 1;
+      display: grid;
+      align-content: center;
+      padding: 8vh var(--edge);
+      position: relative;
+    }
+    .error-code {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      color: var(--lime);
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    .error-title {
+      font-size: clamp(4rem, 12vw, 11rem);
+      line-height: 0.82;
+      letter-spacing: -0.07em;
+      font-weight: 400;
+    }
+    .error-title em { font-family: var(--font-serif); font-style: italic; color: var(--lime); }
+    .error-copy { max-width: 42ch; margin-top: 30px; color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .error-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 38px; }
+    .error-footer { display: flex; justify-content: space-between; gap: 20px; padding: 24px var(--edge); border-top: 1px solid var(--line-soft); color: var(--muted-2); }
+    .error-orbit {
+      position: fixed;
+      right: -16vw;
+      top: 16vh;
+      width: min(66vw, 800px);
+      aspect-ratio: 1;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    .error-orbit::before,
+    .error-orbit::after {
+      content: '';
+      position: absolute;
+      border: 1px dashed var(--line);
+      border-radius: 50%;
+    }
+    .error-orbit::before { inset: 16%; }
+    .error-orbit::after { inset: 34%; border-color: rgba(216, 255, 62, 0.18); }
+    @media (max-width: 640px) {
+      .error-footer { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body class="error-page">
+  <header class="error-header">
+    <a class="brand" href="/" aria-label="Youyang Shang, home">
+      <span class="brand__mark">YS<span class="brand__dot">.</span></span>
+    </a>
+    <span class="mono" style="color: var(--muted-2)">ERROR / 404</span>
+  </header>
+  <main class="error-main">
+    <div class="error-orbit" aria-hidden="true"></div>
+    <div class="error-code">LOST IN THE FRACTAL</div>
+    <h1 class="error-title">Wrong<br><em>dimension.</em></h1>
+    <p class="error-copy">This page doesn't exist — or it recursed one level too deep. Let's get you back to somewhere with a little more structure.</p>
+    <div class="error-actions">
+      <a class="button button--primary" href="/"><span>Back to the site</span><span class="button__arrow">↖</span></a>
+      <a class="button button--ghost" href="mailto:shang.320@osu.edu"><span>Email me</span><span class="button__arrow">↗</span></a>
+    </div>
+  </main>
+  <footer class="error-footer mono">
+    <span>YOUYANG SHANG / COLUMBUS, OH</span>
+    <span>MATHEMATICS, CODE &amp; SOUND</span>
+  </footer>
+</body>
+</html>

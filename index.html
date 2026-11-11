@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <script>document.documentElement.classList.add('js');</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Youyang Shang — Mathematics, Code &amp; Sound</title>
+  <meta name="description" content="Youyang Shang is an honors mathematics student at The Ohio State University building fractal models, quantum circuits, campus tools, pixel worlds, and music.">
+  <meta name="author" content="Youyang Shang">
+  <meta name="theme-color" content="#08090b">
+  <link rel="canonical" href="https://zbq610610.github.io/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zbq610610.github.io/">
+  <meta property="og:title" content="Youyang Shang — Mathematics, Code &amp; Sound">
+  <meta property="og:description" content="Fractal geometry, quantum circuits, campus tools, pixel worlds, and piano keys. A portfolio by Youyang Shang.">
+  <meta property="og:image" content="https://zbq610610.github.io/assets/img/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Youyang Shang — Mathematics, Code &amp; Sound">
+  <meta name="twitter:description" content="Fractal geometry, quantum circuits, campus tools, pixel worlds, and piano keys.">
+  <meta name="twitter:image" content="https://zbq610610.github.io/assets/img/og.png">
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <link rel="preload" href="assets/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/instrument-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script type="module" src="assets/js/main.js"></script>
+</head>
+<body class="is-loading">
+  <noscript>
+    <style>
+      .preloader { display: none !important; }
+      body { overflow: auto !important; height: auto !important; }
+      .reveal, .reveal-lines, .hero-reveal { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+    </style>
+  </noscript>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="preloader__grain"></div>
+    <div class="preloader__inner">
+      <div class="preloader__meta mono">
+        <span>YS / PORTFOLIO</span>
+        <span>COLUMBUS, OH</span>
+      </div>
+      <div class="preloader__word" aria-hidden="true">
+        <span class="preloader__letter">Y</span><span class="preloader__letter">O</span><span class="preloader__letter">U</span><span class="preloader__letter">Y</span><span class="preloader__letter">A</span><span class="preloader__letter">N</span><span class="preloader__letter">G</span>
+      </div>
+      <div class="preloader__bar"><i id="preloader-bar"></i></div>
+      <div class="preloader__meta mono">
+        <span>LOADING THE UNIVERSE</span>
+        <span id="preloader-count">000</span>
+      </div>
+    </div>
+    <div class="preloader__curtain"></div>
+  </div>
+
+  <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__label" id="cursor-label"></span></div>
+  <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"><i id="scroll-progress-bar"></i></div>
+
+  <canvas class="bg-canvas" id="bg-canvas" aria-hidden="true"></canvas>
+  <div class="aurora aurora--one" aria-hidden="true"></div>
+  <div class="aurora aurora--two" aria-hidden="true"></div>
+  <div class="aurora aurora--three" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <header class="site-header" id="site-header">
+    <a class="brand" href="#top" aria-label="Youyang Shang, back to top">
+      <span class="brand__mark">YS<span class="brand__dot">.</span></span>
+      <span class="brand__name">Youyang<br>Shang</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <a href="#about" data-nav="about"><span class="nav__index">01</span>About</a>
+      <a href="#research" data-nav="research"><span class="nav__index">02</span>Research</a>
+      <a href="#work" data-nav="work"><span class="nav__index">03</span>Work</a>
+      <a href="#skills" data-nav="skills"><span class="nav__index">04</span>Toolbox</a>
+      <a href="#contact" data-nav="contact"><span class="nav__index">07</span>Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false" aria-label="Toggle ambient sound">
+        <span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="sound-toggle__text">Sound off</span>
+      </button>
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-overlay">
+        <span class="menu-toggle__lines" aria-hidden="true"><i></i><i></i></span>
+        <span class="menu-toggle__text">Menu</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="menu-overlay" id="menu-overlay" aria-hidden="true" inert>
+    <div class="menu-overlay__inner">
+      <div class="menu-overlay__meta mono"><span>INDEX / 2026</span><span>COLUMBUS, OH</span></div>
+      <nav class="menu-overlay__nav" aria-label="Mobile">
+        <a href="#top"><span>00</span>Top</a>
+        <a href="#about"><span>01</span>About</a>
+        <a href="#research"><span>02</span>Research</a>
+        <a href="#work"><span>03</span>Work</a>
+        <a href="#skills"><span>04</span>Toolbox</a>
+        <a href="#beyond"><span>05</span>Beyond</a>
+        <a href="#timeline"><span>06</span>Timeline</a>
+        <a href="#contact"><span>07</span>Contact</a>
+      </nav>
+      <div class="menu-overlay__foot mono">
+        <a href="mailto:shang.320@osu.edu">shang.320@osu.edu</a>
+        <a href="https://linkedin.com/in/sicheng-qian0703" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero__side mono" aria-hidden="true">
+        <span>PORTFOLIO / 2026—2029</span>
+        <span class="hero__side-line"></span>
+        <span>SCROLL TO EXPLORE</span>
+      </div>
+
+      <div class="hero__grid wrap">
+        <div class="hero__copy">
+          <div class="hero__eyebrow mono hero-reveal">
+            <span class="status-dot"></span>
+            <span>STUDENT · BUILDER · KEYBOARDIST</span>
+            <span class="hero__eyebrow-sep">/</span>
+            <span>COLUMBUS, OH</span>
+          </div>
+
+          <h1 class="hero__title" aria-label="Youyang Shang">
+            <span class="hero__line"><span class="hero__word" data-split>Youyang</span></span>
+            <span class="hero__line hero__line--accent">
+              <span class="hero__word hero__word--serif" data-split>Shang</span>
+              <span class="hero__asterisk" aria-hidden="true">✳</span>
+            </span>
+          </h1>
+
+          <p class="hero__tagline hero-reveal">Mathematics, code <span class="serif">&amp;</span> sound.</p>
+          <p class="hero__lede hero-reveal">I turn abstract structures into things you can play with — fractal models, quantum circuits, campus tools, and pixel worlds.</p>
+
+          <div class="hero__cta hero-reveal">
+            <a class="button button--primary magnetic" href="#work" data-cursor="VIEW">
+              <span>Explore the work</span>
+              <span class="button__arrow" aria-hidden="true">↘</span>
+            </a>
+            <a class="button button--ghost" href="assets/pdf/Youyang-Shang-CV.pdf" download>
+              <span>Download CV</span>
+              <span class="button__arrow" aria-hidden="true">↓</span>
+            </a>
+          </div>
+
+          <div class="hero__foot mono hero-reveal">
+            <span>40.0°N / 83.0°W</span>
+            <span class="hero__foot-live"><i></i><span id="local-time">16:13:24</span><span id="local-zone">EST</span></span>
+            <span>HONORS MATH @ OSU</span>
+          </div>
+        </div>
+
+        <div class="hero__visual" aria-hidden="true">
+          <div class="orb-scene" id="orb-scene">
+            <canvas id="orb-canvas"></canvas>
+            <div class="orb-scene__ring orb-scene__ring--a"></div>
+            <div class="orb-scene__ring orb-scene__ring--b"></div>
+            <div class="orb-scene__ring orb-scene__ring--c"></div>
+            <div class="orb-scene__crosshair"></div>
+            <span class="orbit-label orbit-label--one mono">∑ fractal.geometry</span>
+            <span class="orbit-label orbit-label--two mono">ψ quantum.circuits</span>
+            <span class="orbit-label orbit-label--three mono">♪ astral.note</span>
+            <span class="orbit-label orbit-label--four mono">&lt;/&gt; build.systems</span>
+            <span class="orb-scene__coord mono">YS—001 / GEOMETRY ENGINE</span>
+          </div>
+          <div class="hero__stamp">
+            <svg viewBox="0 0 120 120" role="presentation">
+              <defs><path id="stamp-circle" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"></path></defs>
+              <text><textPath href="#stamp-circle">OPEN TO GOOD PROBLEMS · OPEN TO GOOD PROBLEMS · </textPath></text>
+            </svg>
+            <span class="hero__stamp-center">YS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="scroll-cue mono" aria-hidden="true">
+        <span>SCROLL</span>
+        <span class="scroll-cue__line"><i></i></span>
+      </div>
+    </section>
+
+    <div class="marquee marquee--hero" aria-hidden="true">
+      <div class="marquee__track">
+        <span class="marquee__group">FRACTAL GEOMETRY <i>✦</i> QUANTUM CRYPTOGRAPHY <i>✦</i> PIXEL WORLDS <i>✦</i> PIANO KEYS <i>✦</i> REACT + QISKIT <i>✦</i> CAMPUS TOOLS <i>✦</i></span>
+        <span class="marquee__group">FRACTAL GEOMETRY <i>✦</i> QUANTUM CRYPTOGRAPHY <i>✦</i> PIXEL WORLDS <i>✦</i> PIANO KEYS <i>✦</i> REACT + QISKIT <i>✦</i> CAMPUS TOOLS <i>✦</i></span>
+      </div>
+    </div>
+
+    <section class="section section--about" id="about">
+      <div class="wrap">
+        <div class="section-top">
+          <div class="section-kicker mono reveal"><span>01</span> / ABOUT</div>
+          <p class="section-note reveal">The short version, with the interesting parts left in.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-copy">
+            <h2 class="display reveal-lines">A mathematician<br>who likes to <em>ship.</em></h2>
+            <div class="about-copy__text">
+              <p class="reveal">I'm Youyang, an honors mathematics student at The Ohio State University, minoring in computer science. My work sits where proof meets play: I study self-similar structures, prototype tools for campus life, and build small worlds in Unity.</p>
+              <p class="reveal">Outside the lab, I'm founding the Buckeyes ACG Piano Club and play keys for AstralNote. I care about making technical ideas feel intuitive — whether that's a scheduling algorithm, a quantum circuit, or a chord progression.</p>
+            </div>
+            <a class="text-link reveal" href="#timeline">
+              <span>Follow the timeline</span>
+              <span class="text-link__line"></span>
+              <span aria-hidden="true">↘</span>
+            </a>
+          </div>
+
+          <aside class="about-aside">
+            <div class="id-card tilt reveal" data-tilt>
+              <div class="id-card__top mono"><span>IDENTITY CARD</span><span>001 / YS</span></div>
+              <div class="id-card__mark">YS</div>
+              <dl class="id-card__data">
+                <div><dt>NAME</dt><dd>Youyang Shang</dd></div>
+                <div><dt>BASE</dt><dd>Columbus, OH</dd></div>
+                <div><dt>FIELD</dt><dd>Mathematics / CS</dd></div>
+                <div><dt>STATUS</dt><dd><span class="status-dot"></span>Building</dd></div>
+              </dl>
+              <div class="id-card__barcode" aria-hidden="true"></div>
+              <div class="id-card__foot mono">VALID THROUGH 2029 · OSU</div>
+              <div class="id-card__shine" aria-hidden="true"></div>
+            </div>
+
+            <div class="stats">
+              <div class="stat reveal"><span class="stat__num" data-count="2029">2029</span><span class="stat__label mono">Expected graduation</span></div>
+              <div class="stat reveal"><span class="stat__num" data-count="4">04</span><span class="stat__label mono">Projects in play</span></div>
+              <div class="stat reveal"><span class="stat__num" data-count="2">02</span><span class="stat__label mono">Languages spoken</span></div>
+              <div class="stat reveal"><span class="stat__num stat__num--inf">∞</span><span class="stat__label mono">Fractals explored</span></div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="now-strip reveal">
+          <div class="now-strip__label mono"><span class="status-dot"></span>NOW</div>
+          <div class="now-strip__item"><span class="mono">RESEARCH</span><p>Fractal geometry @ Math Cycle Program</p></div>
+          <div class="now-strip__item"><span class="mono">BUILDING</span><p>CampusPilot — quantum optimization</p></div>
+          <div class="now-strip__item"><span class="mono">LEADING</span><p>Buckeyes ACG Piano Club</p></div>
+          <div class="now-strip__arrow" aria-hidden="true">↘</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--research" id="research">
+      <div class="wrap">
+        <div class="section-top">
+          <div class="section-kicker mono reveal"><span>02</span> / RESEARCH</div>
+          <p class="section-note reveal">Math Cycle Program · since September 2026</p>
+        </div>
+
+        <div class="research-grid">
+          <div class="research-copy">
+            <h2 class="display reveal-lines">Geometry that repeats,<br><em>never quite</em> the same.</h2>
+            <p class="lead reveal">At the Math Cycle Program, I study fractal geometry: structures built from self-similarity, recursive generation, and the strange forms nature keeps reusing.</p>
+            <p class="reveal">I use computational simulations and mathematical proofs to test how those forms behave — measuring their properties, investigating their structure, and looking for the rules underneath.</p>
+
+            <dl class="research-meta reveal">
+              <div><dt>TOPIC</dt><dd>Fractal Geometry</dd></div>
+              <div><dt>MENTOR</dt><dd>Ori Salim Friesen</dd></div>
+              <div><dt>PROGRAM</dt><dd>Math Cycle Program</dd></div>
+              <div><dt>SINCE</dt><dd>September 2026</dd></div>
+            </dl>
+          </div>
+
+          <div class="fractal-stage reveal" data-tilt>
+            <canvas id="fractal-canvas" aria-label="Animated fractal tree that responds to the pointer"></canvas>
+            <div class="fractal-stage__hud mono">
+              <span>DEPTH <b id="fractal-depth">09</b></span>
+              <span>ANGLE <b id="fractal-angle">0.42</b></span>
+              <span>DIM <b id="fractal-dim">1.71</b></span>
+            </div>
+            <div class="fractal-stage__caption mono">MOVE / DRAG TO BEND THE BRANCHES</div>
+            <div class="fractal-stage__corner" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--work" id="work">
+      <div class="wrap">
+        <div class="section-top">
+          <div class="section-kicker mono reveal"><span>03</span> / SELECTED WORK</div>
+          <p class="section-note reveal">Four projects, four ways to make an idea tangible.</p>
+        </div>
+
+        <div class="work-intro">
+          <h2 class="display display--wide reveal-lines">Things I've<br><em>built, broken,</em><br>and rebuilt.</h2>
+          <p class="work-intro__note reveal">Each one started with a constraint: a weekend, a team, a locked file, a stage. Hover the panels — they're alive.</p>
+        </div>
+
+        <div class="projects">
+          <article class="project project--campus reveal" data-cursor="CASE 01">
+            <div class="project__media">
+              <canvas id="campus-canvas" aria-label="Animated campus map with a route finding its way between buildings"></canvas>
+              <div class="project__media-top mono"><span>HACKOHIO 2026</span><span>LIVE SYSTEM</span></div>
+              <div class="project__media-bottom mono"><span>40.0067° N</span><span>83.0305° W</span></div>
+              <span class="project__index" aria-hidden="true">01</span>
+            </div>
+            <div class="project__body">
+              <div class="project__meta mono"><span>PRODUCT / 2026—</span><span>TEAM LEAD</span></div>
+              <h3 class="project__title">CampusPilot<span aria-hidden="true">↗</span></h3>
+              <p class="project__role">Team Lead · Algorithm Designer</p>
+              <p class="project__desc">A campus task-planning app built with three teammates. React + TypeScript on the surface, scheduling algorithms underneath — with a quantum-optimization and room-booking extension now in development.</p>
+              <ul class="project__points">
+                <li>Scheduling logic validated with automated test cases</li>
+                <li>Built with React, TypeScript, and Python</li>
+                <li>IBM Qiskit optimization in progress</li>
+              </ul>
+              <div class="tags"><span>React</span><span>TypeScript</span><span>Python</span><span>Qiskit</span></div>
+            </div>
+          </article>
+
+          <article class="project project--game reveal" data-cursor="CASE 02">
+            <div class="project__media">
+              <canvas id="pixel-canvas" aria-label="Animated pixel-art night landscape with a small character"></canvas>
+              <div class="project__media-top mono"><span>AUTUMN GAMEJAM 2026</span><span>UNITY 2D</span></div>
+              <div class="project__media-bottom mono"><span>OSU GAME CREATION CLUB</span><span>SEP 2026</span></div>
+              <span class="project__index" aria-hidden="true">02</span>
+            </div>
+            <div class="project__body">
+              <div class="project__meta mono"><span>GAME / 2026</span><span>PROGRAMMER</span></div>
+              <h3 class="project__title">Dimensional Adventure<span aria-hidden="true">↗</span></h3>
+              <p class="project__role">Programmer · Prefabs, Assets &amp; UI</p>
+              <p class="project__desc">A Unity 2D pixel-art GameJam world. I focused on gameplay programming, prefab creation and management, and the main menu + in-game UI that keeps the player oriented.</p>
+              <ul class="project__points">
+                <li>Gameplay systems and prefab pipeline</li>
+                <li>Main menu and in-game interface design</li>
+                <li>Built with a team at OSU Game Creation Club</li>
+              </ul>
+              <div class="tags"><span>Unity</span><span>C#</span><span>GameJam</span><span>Pixel Art</span></div>
+            </div>
+          </article>
+
+          <article class="project project--quantum reveal" data-cursor="CASE 03">
+            <div class="project__media">
+              <canvas id="quantum-canvas" aria-label="Animated quantum sphere with orbiting particles and encryption keys"></canvas>
+              <div class="project__media-top mono"><span>QISKIT FALL FEST 2026</span><span>10 FILES LOCKED</span></div>
+              <div class="project__media-bottom mono"><span>IBM QISKIT</span><span>NOV 2026</span></div>
+              <span class="project__index" aria-hidden="true">03</span>
+            </div>
+            <div class="project__body">
+              <div class="project__meta mono"><span>QUANTUM / 2026</span><span>PROGRAMMER</span></div>
+              <h3 class="project__title">Quantum Cryptograph<span aria-hidden="true">↗</span></h3>
+              <p class="project__role">Programmer · Qiskit Fall Fest</p>
+              <p class="project__desc">A quantum cryptography challenge: recover encryption keys and decrypt 10 locked files. I built the post-processing and decryption workflow that turned circuit outputs into valid keys, then verified the solutions against official tests.</p>
+              <ul class="project__points">
+                <li>Circuit outputs converted into working decryption keys</li>
+                <li>Solutions verified through official tests and randomized trials</li>
+                <li>Managed final code packaging and submission</li>
+              </ul>
+              <div class="tags"><span>Qiskit</span><span>Python</span><span>Quantum</span><span>Cryptography</span></div>
+            </div>
+          </article>
+
+          <article class="project project--music reveal" data-cursor="CASE 04">
+            <div class="project__media">
+              <canvas id="audio-canvas" aria-label="Animated audio waveform, piano keys, and floating musical notes"></canvas>
+              <div class="project__media-top mono"><span>ASTRALNOTE</span><span>LIVE / 2026—</span></div>
+              <div class="project__media-bottom mono"><span>OSU JPAS CLUB</span><span>KEYBOARDER</span></div>
+              <span class="project__index" aria-hidden="true">04</span>
+            </div>
+            <div class="project__body">
+              <div class="project__meta mono"><span>SOUND / 2026—</span><span>INTERN KEYBOARDER</span></div>
+              <h3 class="project__title">AstralNote<span aria-hidden="true">↗</span></h3>
+              <p class="project__role">Intern Keyboarder · OSU JPAS Club</p>
+              <p class="project__desc">Keyboard accompaniment for an anime + ACG music band — rehearsals, live performances, and arrangements that move between styles. A different kind of system: listening, adapting, and holding the groove.</p>
+              <ul class="project__points">
+                <li>Keyboard accompaniment for rehearsals and live performances</li>
+                <li>Musical arrangements adapted across styles</li>
+                <li>Collaboration with a full band, on stage and off</li>
+              </ul>
+              <div class="tags"><span>Piano</span><span>Arrangement</span><span>Live</span><span>ACG</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--skills" id="skills">
+      <div class="wrap">
+        <div class="section-top">
+          <div class="section-kicker mono reveal"><span>04</span> / TOOLBOX</div>
+          <p class="section-note reveal">Hover anything. It's all connected.</p>
+        </div>
+
+        <div class="skills-head">
+          <h2 class="display reveal-lines">A stack for<br><em>curious</em> problems.</h2>
+          <p class="skills-head__note reveal">I like tools that get out of the way — and foundations that don't. Here's what I reach for.</p>
+        </div>
+
+        <div class="skill-board reveal">
+          <div class="skill-board__glow" aria-hidden="true"></div>
+          <div class="skill-row">
+            <div class="skill-row__label mono"><span>01</span>LANGUAGES</div>
+            <div class="skill-chips">
+              <span class="chip chip--lg" data-skill>C++</span>
+              <span class="chip" data-skill>C#</span>
+              <span class="chip" data-skill>Java</span>
+              <span class="chip chip--lg" data-skill>Python</span>
+              <span class="chip" data-skill>JavaScript</span>
+              <span class="chip" data-skill>TypeScript</span>
+            </div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-row__label mono"><span>02</span>TOOLS</div>
+            <div class="skill-chips">
+              <span class="chip chip--accent" data-skill>Unity Engine</span>
+              <span class="chip" data-skill>React</span>
+              <span class="chip chip--accent" data-skill>Qiskit</span>
+              <span class="chip" data-skill>Unity Editor</span>
+              <span class="chip" data-skill>Canvas / Web Audio</span>
+            </div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-row__label mono"><span>03</span>FOUNDATIONS</div>
+            <div class="skill-chips">
+              <span class="chip" data-skill>Object-Oriented Programming</span>
+              <span class="chip" data-skill>Data Structures</span>
+              <span class="chip" data-skill>Algorithms</span>
+              <span class="chip" data-skill>Mathematical Analysis</span>
+              <span class="chip" data-skill>Statistics</span>
+              <span class="chip" data-skill>Quantum Cryptography</span>
+            </div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-row__label mono"><span>04</span>HUMAN</div>
+            <div class="skill-chips">
+              <span class="chip chip--warm" data-skill>Mandarin · Native</span>
+              <span class="chip chip--warm" data-skill>English · Fluent</span>
+              <span class="chip chip--warm" data-skill>Piano</span>
+              <span class="chip chip--warm" data-skill>Ensemble Arrangement</span>
+              <span class="chip chip--warm" data-skill>Community Building</span>
+            </div>
+          </div>
+          <div class="skill-board__foot mono">
+            <span>CURRENTLY EXPLORING</span>
+            <span>quantum optimization · generative geometry · better interfaces</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--beyond" id="beyond">
+      <div class="wrap">
+        <div class="section-top">
+          <div class="section-kicker mono reveal"><span>05</span> / BEYOND THE PROOF</div>
+          <p class="section-note reveal">The part that doesn't fit on a transcript.</p>
+        </div>
+
+        <div class="beyond-grid">
+          <div class="beyond-copy">
+            <h2 class="display reveal-lines">Off the<br><em>proof sheet.</em></h2>
+            <p class="lead reveal">I'm founding the Buckeyes ACG Piano Club to bring piano lovers and anime / comics / games fans together through music.</p>
+            <p class="reveal">I also play keys for AstralNote. The job is equal parts arrangement, listening, and keeping a straight face when the set list changes. Music taught me the thing math already suspected: structure is more fun when someone can feel it.</p>
+            <blockquote class="pull-quote reveal">“Music is mathematics<br>you can <em>feel.</em>”</blockquote>
+
+            <div class="beyond-roles reveal">
+              <div class="beyond-role">
+                <span class="mono">FOUNDER &amp; PRESIDENT</span>
+                <h3>Buckeyes ACG Piano Club</h3>
+                <p>The Ohio State University · from Feb 2027 (expected)</p>
+              </div>
+              <div class="beyond-role">
+                <span class="mono">INTERN KEYBOARDER</span>
+                <h3>AstralNote</h3>
+                <p>OSU JPAS Club · Nov 2026—present</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="piano-card tilt reveal" data-tilt>
+            <div class="piano-card__head mono"><span>ASTRALNOTE / STUDIO</span><span>44.1 kHz</span></div>
+            <div class="piano" id="piano" role="group" aria-label="Interactive piano — click or use arrow keys to play"></div>
+            <div class="piano-card__foot">
+              <div class="piano-card__hint mono">TAP THE KEYS · SOUND ON</div>
+              <button class="piano-demo" id="piano-demo" type="button"><span class="piano-demo__dot"></span>Play a little phrase</button>
+            </div>
+            <div class="piano-card__notes" aria-hidden="true"><span>♪</span><span>♫</span><span>♪</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--timeline" id="timeline">
+      <div class="wrap">
+        <div class="section-top">
+          <div class="section-kicker mono reveal"><span>06</span> / TIMELINE</div>
+          <p class="section-note reveal">A short history of showing up.</p>
+        </div>
+
+        <div class="timeline-head">
+          <h2 class="display reveal-lines">Still <em>early.</em><br>By design.</h2>
+          <span class="timeline-head__mark mono">2026 — 2029</span>
+        </div>
+
+        <ol class="timeline">
+          <li class="timeline__item reveal">
+            <span class="timeline__date mono">2026.08</span>
+            <div class="timeline__body"><h3>Started at The Ohio State University</h3><p>B.S. Mathematics, Honors theoretical track · Minor in Computer Science.</p></div>
+            <span class="timeline__tag mono">EDUCATION</span>
+          </li>
+          <li class="timeline__item reveal">
+            <span class="timeline__date mono">2026.09</span>
+            <div class="timeline__body"><h3>Math Cycle Program</h3><p>Began research in fractal geometry with mentor Ori Salim Friesen.</p></div>
+            <span class="timeline__tag mono">RESEARCH</span>
+          </li>
+          <li class="timeline__item reveal">
+            <span class="timeline__date mono">2026.09</span>
+            <div class="timeline__body"><h3>Dimensional Adventure</h3><p>Programmer on a Unity 2D pixel-art GameJam project with OSU Game Creation Club.</p></div>
+            <span class="timeline__tag mono">GAME</span>
+          </li>
+          <li class="timeline__item reveal">
+            <span class="timeline__date mono">2026.10</span>
+            <div class="timeline__body"><h3>CampusPilot @ HackOHIO</h3><p>Team lead and algorithm designer; prototype continues to grow after the hackathon.</p></div>
+            <span class="timeline__tag mono">PRODUCT</span>
+          </li>
+          <li class="timeline__item reveal">
+            <span class="timeline__date mono">2026.11</span>
+            <div class="timeline__body"><h3>Quantum Cryptograph</h3><p>Qiskit Fall Fest challenge: recover keys, decrypt 10 files, verify the circuits.</p></div>
+            <span class="timeline__tag mono">QUANTUM</span>
+          </li>
+          <li class="timeline__item reveal">
+            <span class="timeline__date mono">2026.11</span>
+            <div class="timeline__body"><h3>AstralNote</h3><p>Joined as intern keyboarder for the OSU JPAS Club's anime + ACG music band.</p></div>
+            <span class="timeline__tag mono">MUSIC</span>
+          </li>
+          <li class="timeline__item timeline__item--future reveal">
+            <span class="timeline__date mono">2027.02</span>
+            <div class="timeline__body"><h3>Buckeyes ACG Piano Club</h3><p>Founding the student org as Founder &amp; President. Piano performances, theory tutoring, collaborative workshops.</p></div>
+            <span class="timeline__tag mono">NEXT</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section--contact" id="contact">
+      <div class="contact-orbit" aria-hidden="true">
+        <div class="contact-orbit__ring"></div>
+        <div class="contact-orbit__ring"></div>
+        <div class="contact-orbit__ring"></div>
+        <span class="contact-orbit__dot"></span>
+      </div>
+
+      <div class="wrap">
+        <div class="section-top">
+          <div class="section-kicker mono reveal"><span>07</span> / SAY HELLO</div>
+          <p class="section-note reveal">The inbox is open.</p>
+        </div>
+
+        <h2 class="contact-title reveal-lines">Let's make something<br><em>that doesn't fit</em><br>on a résumé.</h2>
+        <p class="contact-lede reveal">Research, a strange build, a score, or just a good problem — I'd like to hear about it.</p>
+
+        <a class="contact-email magnetic reveal" href="mailto:shang.320@osu.edu" data-cursor="SAY HI">
+          <span class="contact-email__text">shang.320@osu.edu</span>
+          <span class="contact-email__arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <div class="contact-grid reveal">
+          <div class="contact-cell">
+            <span class="mono">ELSEWHERE</span>
+            <a href="https://linkedin.com/in/sicheng-qian0703" target="_blank" rel="noopener">LinkedIn <span>↗</span></a>
+            <a href="https://github.com/zbq610610" target="_blank" rel="noopener">GitHub <span>↗</span></a>
+          </div>
+          <div class="contact-cell">
+            <span class="mono">DIRECT</span>
+            <a href="tel:+16145865056">614-586-5056</a>
+            <button class="copy-email" id="copy-email" type="button" data-email="shang.320@osu.edu">Copy email <span>⧉</span></button>
+          </div>
+          <div class="contact-cell">
+            <span class="mono">BASED IN</span>
+            <p>Columbus, Ohio<br><span class="muted">40.0°N / 83.0°W</span></p>
+          </div>
+          <div class="contact-cell">
+            <span class="mono">CURRENTLY</span>
+            <p>Studying math.<br><span class="muted">Building things anyway.</span></p>
+          </div>
+        </div>
+
+        <footer class="footer">
+          <a class="footer__brand" href="#top">YS<span>.</span></a>
+          <div class="footer__meta mono">
+            <span>© 2026 YOUYANG SHANG</span>
+            <span>DESIGNED &amp; BUILT IN COLUMBUS, OH</span>
+            <span>VANILLA JS · CANVAS · A MILD FRACTAL OBSESSION</span>
+          </div>
+          <a class="footer__top mono" href="#top">BACK TO TOP <span>↑</span></a>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Email copied</div>
+</body>
+</html>
