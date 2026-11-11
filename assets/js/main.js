@@ -1551,26 +1551,28 @@ class PixelScene extends Scene {
 
   drawMiniDragon(o, x, y) {
     o.fillStyle = 'rgba(0, 0, 0, 0.3)';
-    o.fillRect(x - 16, y + 10, 32, 2);
-    o.fillStyle = '#5c33a0';
-    o.fillRect(x + 8, y - 9, 12, 3);
-    o.fillStyle = '#8751d6';
-    o.fillRect(x + 11, y - 8, 6, 1);
+    o.fillRect(x - 20, y + 11, 40, 2);
+
     o.fillStyle = '#55d943';
-    o.fillRect(x - 16, y + 3, 16, 5);
-    o.fillRect(x - 19, y + 4, 3, 3);
-    o.fillRect(x - 21, y + 5, 2, 1);
-    o.fillRect(x, y - 2, 12, 9);
-    o.fillRect(x + 10, y - 1, 5, 5);
-    o.fillStyle = '#f2efe6';
-    o.fillRect(x + 11, y + 1, 2, 2);
+    o.fillRect(x - 17, y, 17, 10);
+    o.fillRect(x - 21, y + 2, 4, 6);
+    o.fillRect(x - 24, y + 4, 3, 3);
+    o.fillRect(x, y - 2, 13, 10);
+    o.fillRect(x + 11, y + 1, 5, 5);
+
     o.fillStyle = '#071108';
-    o.fillRect(x + 12, y + 1, 1, 1);
-    o.fillStyle = '#ff83c9';
-    o.fillRect(x + 15, y + 3, 2, 1);
-    o.fillStyle = '#d8ff3e';
-    o.fillRect(x + 11, y - 8, 1, 1);
-    o.fillRect(x + 14, y - 7, 1, 1);
+    o.fillRect(x + 7, y + 1, 2, 2);
+    o.fillRect(x + 9, y + 6, 4, 1);
+
+    o.fillStyle = '#2b1a4a';
+    o.fillRect(x - 6, y - 6, 24, 3);
+    o.fillStyle = '#5c3b91';
+    o.fillRect(x + 1, y - 13, 9, 7);
+    o.fillRect(x + 3, y - 17, 5, 4);
+    o.fillStyle = '#d6d24f';
+    o.fillRect(x + 4, y - 12, 1, 1);
+    o.fillRect(x + 6, y - 16, 1, 1);
+    o.fillRect(x + 7, y - 10, 1, 1);
   }
 
   drawGame(o, time) {
@@ -1739,43 +1741,42 @@ class PixelScene extends Scene {
 
     o.fillStyle = 'rgba(0, 0, 0, 0.32)';
     o.beginPath();
-    o.ellipse(x - 22, y + 3, 47, 3, 0, 0, TAU);
+    o.ellipse(x - 24, y + 5, 50, 3, 0, 0, TAU);
     o.fill();
 
-    // Straight body extending back from the head, with a stepped tail taper.
+    // Straight body, close to the head's thickness, with a stepped tail taper.
     o.fillStyle = green;
-    o.fillRect(x - 58, y - 9, 60, 8);
-    o.fillRect(x - 63, y - 8, 5, 6);
-    o.fillRect(x - 67, y - 7, 4, 4);
-    o.fillRect(x - 70, y - 6, 3, 2);
+    o.fillRect(x - 58, y - 13, 62, 20);
+    o.fillRect(x - 63, y - 11, 5, 16);
+    o.fillRect(x - 68, y - 8, 5, 10);
+    o.fillRect(x - 72, y - 4, 4, 6);
 
     // Head and snout.
-    o.fillRect(x - 4, y - 14, 18, 14);
-    o.fillRect(x + 12, y - 10, 8, 9);
+    o.fillRect(x - 6, y - 20, 26, 24);
+    o.fillRect(x + 20, y - 12, 6, 13);
 
-    // Eye, tongue, and hat are the only non-green details.
-    o.fillStyle = '#f2efe6';
-    o.fillRect(x + 13, y - 9, 3, 3);
+    // Black square eye and mouth, as in the reference.
     o.fillStyle = '#071108';
-    o.fillRect(x + 14, y - 8, 2, 2);
-    o.fillStyle = '#ff83c9';
-    o.fillRect(x + 19, y - 4, 4, 1);
-    o.fillRect(x + 19, y - 6, 2, 1);
+    o.fillRect(x + 13, y - 12, 3, 3);
+    o.fillRect(x + 16, y - 3, 9, 2);
+    o.fillRect(x + 14, y - 5, 2, 2);
 
-    o.fillStyle = '#5c33a0';
-    o.beginPath();
-    o.moveTo(x - 1, y - 15);
-    o.lineTo(x + 8, y - 32);
-    o.lineTo(x + 17, y - 15);
-    o.closePath();
-    o.fill();
-    o.fillStyle = '#8751d6';
-    o.fillRect(x + 6, y - 26, 2, 1);
-    o.fillRect(x + 10, y - 23, 1, 1);
-    o.fillStyle = '#d8ff3e';
-    o.fillRect(x + 7, y - 22, 1, 1);
-    o.fillRect(x + 5, y - 19, 1, 1);
-    o.fillRect(x + 12, y - 20, 1, 1);
+    // Wide-brimmed purple wizard hat.
+    o.fillStyle = '#2b1a4a';
+    o.fillRect(x - 8, y - 25, 38, 4);
+    o.fillRect(x + 2, y - 34, 20, 9);
+    o.fillRect(x + 5, y - 41, 14, 7);
+    o.fillRect(x + 8, y - 46, 8, 5);
+    o.fillStyle = '#5c3b91';
+    o.fillRect(x + 4, y - 34, 16, 9);
+    o.fillRect(x + 7, y - 41, 10, 7);
+    o.fillRect(x + 9, y - 46, 6, 5);
+    o.fillStyle = '#d6d24f';
+    o.fillRect(x + 7, y - 30, 2, 2);
+    o.fillRect(x + 14, y - 37, 2, 2);
+    o.fillRect(x + 9, y - 43, 2, 2);
+    o.fillRect(x + 6, y - 27, 1, 1);
+    o.fillRect(x + 12, y - 25, 1, 1);
   }
 }
 
