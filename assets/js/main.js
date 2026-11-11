@@ -1623,7 +1623,7 @@ class PixelScene extends Scene {
 
     this.drawPortal(o, 294, 186, time);
     this.drawStaff(o, 207, 178, time);
-    this.drawDragon(o, 172 + Math.sin(time * 0.8) * 8, 218);
+    this.drawDragon(o, 172 + Math.sin(time * 0.8) * 8, 214);
     this.drawBook(o, 33, 201, time + 2);
 
     o.fillStyle = '#2b1b10';
@@ -1744,12 +1744,12 @@ class PixelScene extends Scene {
     o.ellipse(x - 24, y + 5, 50, 3, 0, 0, TAU);
     o.fill();
 
-    // Straight body, close to the head's thickness, with a stepped tail taper.
+    // Straight body, at least as thick as the head, with a stepped tail taper.
     o.fillStyle = green;
-    o.fillRect(x - 58, y - 13, 62, 20);
-    o.fillRect(x - 63, y - 11, 5, 16);
-    o.fillRect(x - 68, y - 8, 5, 10);
-    o.fillRect(x - 72, y - 4, 4, 6);
+    o.fillRect(x - 58, y - 13, 62, 24);
+    o.fillRect(x - 63, y - 11, 5, 20);
+    o.fillRect(x - 68, y - 8, 5, 14);
+    o.fillRect(x - 72, y - 4, 4, 8);
 
     // Head and snout.
     o.fillRect(x - 6, y - 20, 26, 24);
