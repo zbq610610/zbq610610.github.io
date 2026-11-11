@@ -1549,33 +1549,28 @@ class PixelScene extends Scene {
     o.fillRect(x + 9, y + 9 + bob, 2, 1);
   }
 
-  drawMiniDragon(o, x, y, time) {
-    const bob = Math.round(Math.sin(time * 3) * 1);
-    const wave = Math.round(Math.sin(time * 3.4) * 1);
+  drawMiniDragon(o, x, y) {
     o.fillStyle = 'rgba(0, 0, 0, 0.3)';
-    o.fillRect(x - 8, y + 10, 24, 2);
+    o.fillRect(x - 16, y + 10, 32, 2);
     o.fillStyle = '#5c33a0';
-    o.fillRect(x + 8, y - 9 + bob, 12, 3);
+    o.fillRect(x + 8, y - 9, 12, 3);
     o.fillStyle = '#8751d6';
-    o.fillRect(x + 11, y - 8 + bob, 6, 1);
+    o.fillRect(x + 11, y - 8, 6, 1);
     o.fillStyle = '#55d943';
-    o.fillRect(x - 8, y + 3 + wave + bob, 6, 4);
-    o.fillRect(x - 3, y + 2 + bob, 10, 6);
-    o.fillRect(x + 5, y + bob, 12, 8);
-    o.fillStyle = '#2c9e28';
-    o.fillRect(x - 8, y + 6 + wave + bob, 6, 1);
-    o.fillRect(x - 3, y + 7 + bob, 10, 1);
-    o.fillRect(x + 5, y + 7 + bob, 12, 1);
-    o.fillStyle = '#b7ff8f';
-    o.fillRect(x + 10, y + 1 + bob, 2, 2);
+    o.fillRect(x - 16, y + 3, 16, 5);
+    o.fillRect(x - 19, y + 4, 3, 3);
+    o.fillRect(x - 21, y + 5, 2, 1);
+    o.fillRect(x, y - 2, 12, 9);
+    o.fillRect(x + 10, y - 1, 5, 5);
+    o.fillStyle = '#f2efe6';
+    o.fillRect(x + 11, y + 1, 2, 2);
     o.fillStyle = '#071108';
-    o.fillRect(x + 14, y + 2 + bob, 1, 1);
+    o.fillRect(x + 12, y + 1, 1, 1);
     o.fillStyle = '#ff83c9';
-    o.fillRect(x + 17, y + 5 + bob, 2, 1);
+    o.fillRect(x + 15, y + 3, 2, 1);
     o.fillStyle = '#d8ff3e';
-    o.fillRect(x + 11, y - 8 + bob, 1, 1);
-    o.fillRect(x + 14, y - 7 + bob, 1, 1);
-    o.fillRect(x - 1, y + 4 + bob, 1, 1);
+    o.fillRect(x + 11, y - 8, 1, 1);
+    o.fillRect(x + 14, y - 7, 1, 1);
   }
 
   drawGame(o, time) {
@@ -1626,7 +1621,7 @@ class PixelScene extends Scene {
 
     this.drawPortal(o, 294, 186, time);
     this.drawStaff(o, 207, 178, time);
-    this.drawDragon(o, 138 + Math.sin(time * 0.8) * 14, 218, time);
+    this.drawDragon(o, 172 + Math.sin(time * 0.8) * 8, 218);
     this.drawBook(o, 33, 201, time + 2);
 
     o.fillStyle = '#2b1b10';
@@ -1739,83 +1734,48 @@ class PixelScene extends Scene {
     }
   }
 
-  drawDragon(o, x, y, time) {
-    const bob = Math.round(Math.sin(time * 4) * 1);
-    const steps = 34;
-    const spine = Array.from({ length: steps + 1 }, (_, index) => {
-      const t = index / steps;
-      return {
-        x: Math.round(x - 58 + t * 62),
-        y: Math.round(y + 2 - t * 11 + Math.sin(t * 6.6 + time * 2.2) * 1.5 + bob),
-        half: Math.max(1, Math.round(2 + Math.sin(t * Math.PI) * 2.5))
-      };
-    });
+  drawDragon(o, x, y) {
+    const green = '#55d943';
 
     o.fillStyle = 'rgba(0, 0, 0, 0.32)';
     o.beginPath();
-    o.ellipse(x - 17, y + 3, 44, 3, 0, 0, TAU);
+    o.ellipse(x - 22, y + 3, 47, 3, 0, 0, TAU);
     o.fill();
 
-    spine.forEach((point) => {
-      o.fillStyle = '#1d6b1c';
-      o.fillRect(point.x - 1, point.y - point.half - 2, 5, point.half * 2 + 4);
-    });
-    spine.forEach((point) => {
-      o.fillStyle = '#2c9e28';
-      o.fillRect(point.x, point.y - point.half, 4, point.half * 2);
-      o.fillStyle = '#55d943';
-      o.fillRect(point.x, point.y - point.half, 4, 2);
-      o.fillStyle = '#b7ff8f';
-      o.fillRect(point.x, point.y + point.half - 1, 4, 1);
-    });
+    // Straight body extending back from the head, with a stepped tail taper.
+    o.fillStyle = green;
+    o.fillRect(x - 58, y - 9, 60, 8);
+    o.fillRect(x - 63, y - 8, 5, 6);
+    o.fillRect(x - 67, y - 7, 4, 4);
+    o.fillRect(x - 70, y - 6, 3, 2);
 
-    const tail = spine[0];
-    o.fillStyle = '#1d6b1c';
-    o.fillRect(tail.x - 3, tail.y - 1, 4, 3);
-    o.fillStyle = '#55d943';
-    o.fillRect(tail.x - 2, tail.y - 1, 3, 2);
+    // Head and snout.
+    o.fillRect(x - 4, y - 14, 18, 14);
+    o.fillRect(x + 12, y - 10, 8, 9);
 
-    o.fillStyle = '#d8ff3e';
-    [6, 14, 23, 29].forEach((index) => {
-      const point = spine[index];
-      o.fillRect(point.x + 1, point.y - point.half + 1, 1, 1);
-    });
-
-    o.fillStyle = '#1d6b1c';
-    o.fillRect(x - 5, y - 15 + bob, 20, 16);
-    o.fillRect(x + 10, y - 11 + bob, 10, 11);
-    o.fillStyle = '#55d943';
-    o.fillRect(x - 4, y - 14 + bob, 18, 14);
-    o.fillRect(x + 9, y - 10 + bob, 10, 9);
-    o.fillStyle = '#2c9e28';
-    o.fillRect(x - 4, y - 2 + bob, 18, 2);
-    o.fillRect(x + 9, y + 1 + bob, 10, 2);
-    o.fillStyle = '#b7ff8f';
-    o.fillRect(x + 8, y - 13 + bob, 6, 1);
+    // Eye, tongue, and hat are the only non-green details.
     o.fillStyle = '#f2efe6';
-    o.fillRect(x + 12, y - 9 + bob, 3, 3);
+    o.fillRect(x + 13, y - 9, 3, 3);
     o.fillStyle = '#071108';
-    o.fillRect(x + 13, y - 8 + bob, 2, 2);
+    o.fillRect(x + 14, y - 8, 2, 2);
     o.fillStyle = '#ff83c9';
-    o.fillRect(x + 19, y - 4 + bob, 4, 1);
-    o.fillRect(x + 19, y - 6 + bob, 2, 1);
-    o.fillStyle = '#d8ff3e';
-    o.fillRect(x + 10, y - 7 + bob, 1, 1);
+    o.fillRect(x + 19, y - 4, 4, 1);
+    o.fillRect(x + 19, y - 6, 2, 1);
 
     o.fillStyle = '#5c33a0';
     o.beginPath();
-    o.moveTo(x - 1, y - 15 + bob);
-    o.lineTo(x + 8, y - 32 + bob);
-    o.lineTo(x + 17, y - 15 + bob);
+    o.moveTo(x - 1, y - 15);
+    o.lineTo(x + 8, y - 32);
+    o.lineTo(x + 17, y - 15);
     o.closePath();
     o.fill();
     o.fillStyle = '#8751d6';
-    o.fillRect(x + 6, y - 26 + bob, 2, 1);
-    o.fillRect(x + 10, y - 23 + bob, 1, 1);
+    o.fillRect(x + 6, y - 26, 2, 1);
+    o.fillRect(x + 10, y - 23, 1, 1);
     o.fillStyle = '#d8ff3e';
-    o.fillRect(x + 7, y - 22 + bob, 1, 1);
-    o.fillRect(x + 5, y - 19 + bob, 1, 1);
-    o.fillRect(x + 12, y - 20 + bob, 1, 1);
+    o.fillRect(x + 7, y - 22, 1, 1);
+    o.fillRect(x + 5, y - 19, 1, 1);
+    o.fillRect(x + 12, y - 20, 1, 1);
   }
 }
 
