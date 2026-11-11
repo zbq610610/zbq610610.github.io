@@ -1477,6 +1477,37 @@ class PixelScene extends Scene {
     }
   }
 
+  drawSnakeBody(o, right, bottom, height) {
+    if (!this.snake || !this.snake.naturalWidth) return;
+    const width = height * (this.snake.naturalWidth / this.snake.naturalHeight);
+    const headLeft = right - width;
+    const fullThickness = (120 / 360) * height;
+    const stripes = ['#2a471d', '#6fbb4d', '#90e46a', '#2a471d'];
+
+    const drawStriped = (left, rightEdge, thickness) => {
+      const h = Math.max(4, Math.round(thickness));
+      const top = Math.round(bottom - h);
+      const topDark = Math.max(1, Math.round(h * (20 / 120)));
+      const middle = Math.max(1, Math.round(h * (60 / 120)));
+      const belly = Math.max(1, Math.round(h * (20 / 120)));
+      const bottomDark = Math.max(1, h - topDark - middle - belly);
+      o.fillStyle = stripes[0];
+      o.fillRect(Math.round(left), top, Math.round(rightEdge - left), topDark);
+      o.fillStyle = stripes[1];
+      o.fillRect(Math.round(left), top + topDark, Math.round(rightEdge - left), middle);
+      o.fillStyle = stripes[2];
+      o.fillRect(Math.round(left), top + topDark + middle, Math.round(rightEdge - left), belly);
+      o.fillStyle = stripes[3];
+      o.fillRect(Math.round(left), top + topDark + middle + belly, Math.round(rightEdge - left), bottomDark);
+    };
+
+    // Long straight body behind the head sprite, with a stepped tail taper.
+    drawStriped(headLeft - 86, headLeft + 1, fullThickness);
+    drawStriped(headLeft - 94, headLeft - 84, 20);
+    drawStriped(headLeft - 100, headLeft - 92, 14);
+    drawStriped(headLeft - 104, headLeft - 98, 8);
+  }
+
   drawSnakeSprite(o, right, bottom, height) {
     if (!this.snake || !this.snake.complete || !this.snake.naturalWidth) return;
     const width = height * (this.snake.naturalWidth / this.snake.naturalHeight);
@@ -1598,6 +1629,7 @@ class PixelScene extends Scene {
       if (i % 4 === 0) o.fillRect(x + 2, y + 2, 1, 1);
     }
 
+    this.drawSnakeBody(o, 208, 224, 80);
     this.drawPurpleColumn(o, 65, 139, 22, 86);
     this.drawPlatform(o, 11, 170, 66);
     this.drawPlatform(o, 84, 149, 64);
